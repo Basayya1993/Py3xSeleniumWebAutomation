@@ -13,11 +13,13 @@ from allure_commons.types import AttachmentType
 
 @allure.title("Selenium Mini Project")
 @allure.description("Verify the login-webpage and find the error message")
-@allure.tag("Web-Automation using selenium for idrive360 website")
+@allure.tag("Web-Automation using selenium for i_drive360 website")
 @allure.severity("Medium")
 @pytest.mark.Mini_Project
 def test_webpage():
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--incognito")
+    driver = webdriver.Chrome(chrome_options)
 
     driver.get("https://www.idrive360.com/enterprise/login")
     time.sleep(5)
@@ -25,6 +27,8 @@ def test_webpage():
     time.sleep(10)
 
     allure.attach(driver.get_screenshot_as_png(), name="webpage-screenshot", attachment_type=AttachmentType.PNG)
+    print(driver.current_url)
+    assert driver.current_url == 'https://www.idrive360.com/enterprise/login'
 
     user_name = driver.find_element(By.XPATH, "//input[@id='username']")
     user_name.send_keys("augtest_040823@idrive.com")
